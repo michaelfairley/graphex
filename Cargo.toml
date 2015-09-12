@@ -1,0 +1,13 @@
+[package]
+name = "graphex"
+version = "0.1.0"
+authors = ["Michael Fairley <michaelfairley@gmail.com>"]
+
+[dependencies]
+sdl2 = "0.8"
+glium_sdl2 = "0.6"
+cgmath = "*"
+
+[dependencies.glium]
+version = "0.8"
+features = ["cgmath"]
