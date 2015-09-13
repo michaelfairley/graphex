@@ -4,6 +4,8 @@ extern crate cgmath;
 extern crate glium;
 extern crate glium_sdl2;
 
+use cgmath::EuclideanVector;
+
 pub mod shapes;
 
 fn main() {
@@ -26,6 +28,8 @@ fn main() {
     .unwrap();
 
   let proj = cgmath::perspective(cgmath::deg(90 as f32), 1024.0/768.0, 1.0, 45.0);
+
+  let light_direction = cgmath::vec3::<f32>(1.0, 2.0, 1.0).normalize();
 
   let basic_program = glium::Program::from_source(&window, include_str!("shaders/basic.vert"), include_str!("shaders/basic.frag"), None).unwrap();
 
@@ -65,6 +69,9 @@ fn main() {
       model: cgmath::Matrix4::from_translation(&cgmath::vec3::<f32>(5.0, 5.0, -10.0)),
       camera: cgmath::Matrix4::from_translation(&cgmath::vec3::<f32>(0.0, 0.0, 0.0)),
       proj: proj,
+      ambient_intensity: 0.5f32,
+      directional_intensity: 0.5f32,
+      light_direction: light_direction,
     };
 
     target.draw(&cube_vertex_buffer,
