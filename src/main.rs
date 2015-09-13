@@ -4,6 +4,8 @@ extern crate cgmath;
 extern crate glium;
 extern crate glium_sdl2;
 
+pub mod shapes;
+
 fn main() {
   use glium_sdl2::DisplayBuild;
   use glium::Surface;
@@ -18,10 +20,26 @@ fn main() {
   gl_attr.set_context_flags().debug().set();
 
   let window = video
-    .window("Graphexs", 1024, 768)
+    .window("Graphex", 1024, 768)
     .resizable()
     .build_glium()
     .unwrap();
+
+  let proj = cgmath::perspective(cgmath::deg(90 as f32), 1024.0/768.0, 1.0, 45.0);
+
+  let basic_program = glium::Program::from_source(&window, include_str!("shaders/basic.vert"), include_str!("shaders/basic.frag"), None).unwrap();
+
+  let cube_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::CUBE).unwrap();
+  let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
+
+  let basic_params = glium::DrawParameters {
+    depth_test: glium::DepthTest::IfLessOrEqual,
+    depth_range: (0.0, 1.0),
+    depth_write: true,
+    backface_culling: glium::BackfaceCullingMode::CullCounterClockWise,
+    .. Default::default()
+  };
+
 
   let mut running = true;
 
@@ -40,6 +58,20 @@ fn main() {
 
     let mut target = window.draw();
     target.clear_color_and_depth((0.0, 0.0, 0.0, 1.0), 1.0);
+
+
+    let basic_uniforms = uniform! {
+      color: [0.9f32, 0.9, 0.9],
+      model: cgmath::Matrix4::from_translation(&cgmath::vec3::<f32>(5.0, 5.0, -10.0)),
+      camera: cgmath::Matrix4::from_translation(&cgmath::vec3::<f32>(0.0, 0.0, 0.0)),
+      proj: proj,
+    };
+
+    target.draw(&cube_vertex_buffer,
+                &indices,
+                &basic_program,
+                &basic_uniforms,
+                &basic_params).unwrap();
 
     target.finish().unwrap();
   }

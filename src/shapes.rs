@@ -1,0 +1,57 @@
+#[derive(Copy, Clone)]
+pub struct Vertex {
+  position: [f32; 3],
+  normal: [f32; 3],
+}
+
+implement_vertex!(Vertex, position, normal);
+
+pub const CUBE: &'static[Vertex] = &[
+  // Front
+  Vertex { position: [ 1.0,  1.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [ 1.0, -1.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [-1.0,  1.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [-1.0,  1.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [ 1.0, -1.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [-1.0, -1.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+
+  // Back
+  Vertex { position: [ 1.0,  1.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+  Vertex { position: [-1.0,  1.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+  Vertex { position: [ 1.0, -1.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+  Vertex { position: [ 1.0, -1.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+  Vertex { position: [-1.0,  1.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+  Vertex { position: [-1.0, -1.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+
+  // Left
+  Vertex { position: [-1.0,  1.0,  1.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [-1.0, -1.0,  1.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [-1.0,  1.0, -1.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [-1.0,  1.0, -1.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [-1.0, -1.0,  1.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [-1.0, -1.0, -1.0], normal: [-1.0,  0.0,  0.0] },
+
+  // Right
+  Vertex { position: [ 1.0,  1.0,  1.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 1.0,  1.0, -1.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 1.0, -1.0,  1.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 1.0, -1.0,  1.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 1.0,  1.0, -1.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 1.0, -1.0, -1.0], normal: [ 1.0,  0.0,  0.0] },
+
+  // Bottom
+  Vertex { position: [ 1.0, -1.0,  1.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [ 1.0, -1.0, -1.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [-1.0, -1.0,  1.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [-1.0, -1.0,  1.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [ 1.0, -1.0, -1.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [-1.0, -1.0, -1.0], normal: [ 0.0, -1.0,  0.0] },
+
+  // Top
+  Vertex { position: [ 1.0,  1.0,  1.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [-1.0,  1.0,  1.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [ 1.0,  1.0, -1.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [ 1.0,  1.0, -1.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [-1.0,  1.0,  1.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [-1.0,  1.0, -1.0], normal: [ 0.0,  1.0,  0.0] },
+  ];
