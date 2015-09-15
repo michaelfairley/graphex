@@ -5,6 +5,7 @@ extern crate glium;
 extern crate glium_sdl2;
 
 use cgmath::EuclideanVector;
+use cgmath::Vector;
 
 pub mod shapes;
 
@@ -47,8 +48,12 @@ fn main() {
 
   let mut running = true;
 
+  let mut camera_position = cgmath::vec3::<f32>(0.0, 0.0, 0.0);
+
+  let mut events = sdl_context.event_pump().unwrap();
+
   while running {
-    for event in sdl_context.event_pump().unwrap().poll_iter() {
+    for event in events.poll_iter() {
       use sdl2::event::Event;
       use sdl2::keyboard::Keycode;
 
@@ -60,6 +65,24 @@ fn main() {
       }
     }
 
+    {
+      use sdl2::keyboard::Scancode;
+
+      let keystates = events.keyboard_state();
+      if keystates.is_scancode_pressed(Scancode::D) {
+        camera_position.add_self_v(&cgmath::vec3(-0.1, 0.0, 0.0));
+      }
+      if keystates.is_scancode_pressed(Scancode::A) {
+        camera_position.add_self_v(&cgmath::vec3(0.1, 0.0, 0.0));
+      }
+      if keystates.is_scancode_pressed(Scancode::W) {
+        camera_position.add_self_v(&cgmath::vec3(0.0, 0.0, 0.1));
+      }
+      if keystates.is_scancode_pressed(Scancode::S) {
+        camera_position.add_self_v(&cgmath::vec3(0.0, 0.0, -0.1));
+      }
+    }
+
     let mut target = window.draw();
     target.clear_color_and_depth((0.0, 0.0, 0.0, 1.0), 1.0);
 
@@ -67,7 +90,7 @@ fn main() {
     let basic_uniforms = uniform! {
       color: [0.9f32, 0.9, 0.9],
       model: cgmath::Matrix4::from_translation(&cgmath::vec3::<f32>(5.0, 5.0, -10.0)),
-      camera: cgmath::Matrix4::from_translation(&cgmath::vec3::<f32>(0.0, 0.0, 0.0)),
+      camera: cgmath::Matrix4::from_translation(&camera_position),
       proj: proj,
       ambient_intensity: 0.5f32,
       directional_intensity: 0.5f32,
