@@ -3,17 +3,26 @@ extern crate cgmath;
 #[macro_use]
 extern crate glium;
 extern crate glium_sdl2;
+extern crate glium_text;
 
 use cgmath::EuclideanVector;
 use cgmath::Vector;
 use cgmath::Rotation;
 use cgmath::Rotation3;
 use cgmath::Matrix;
+use cgmath::FixedArray;
 
 pub mod shapes;
+pub mod fps;
+pub mod ring;
 
 const CAMERA_ROTATE_SPEED: f32 = 1.0/100.0;
 const MOVE_SPEED: f32 = 0.1;
+
+const WIDTH: u32 = 1024;
+const HEIGHT: u32 = 768;
+
+const FONT_SIZE: u32 = 24;
 
 fn main() {
   use glium_sdl2::DisplayBuild;
@@ -29,10 +38,13 @@ fn main() {
   gl_attr.set_context_flags().debug().set();
 
   let window = video
-    .window("Graphex", 1024, 768)
+    .window("Graphex", WIDTH, HEIGHT)
     .resizable()
     .build_glium()
     .unwrap();
+
+  let text_system = glium_text::TextSystem::new(&window);
+  let font = glium_text::FontTexture::new(&window, std::fs::File::open(&std::path::Path::new("assets/OpenSans-Regular.ttf")).unwrap(), FONT_SIZE).unwrap();
 
   let proj = cgmath::perspective(cgmath::deg(60 as f32), 1024.0/768.0, 1.0, 45.0);
 
@@ -58,12 +70,15 @@ fn main() {
   let mut look_up = 0.0f32;
   let mut look_right = 0.0f32;
 
+  let mut fps = fps::new(sdl_context.timer().unwrap());
+
   let mut events = sdl_context.event_pump().unwrap();
 
   let mouse = sdl_context.mouse();
   mouse.set_relative_mouse_mode(true);
 
   while running {
+    fps.tick();
     for event in events.poll_iter() {
       use sdl2::event::Event;
       use sdl2::keyboard::Keycode;
@@ -120,6 +135,12 @@ fn main() {
                 &basic_program,
                 &basic_uniforms,
                 &basic_params).unwrap();
+
+    let fps_text = glium_text::TextDisplay::new(&text_system, &font, &format!("{} fps", fps.average()));
+
+    let fps_text_matrix = cgmath::Matrix4::from_translation(&cgmath::vec3(-1.0, -1.0, 0.0)).mul_m(&cgmath::Matrix4::from(cgmath::Matrix3::from(cgmath::Matrix2::from_value(FONT_SIZE as f32 / HEIGHT as f32))));
+
+    glium_text::draw(&fps_text, &text_system, &mut target, fps_text_matrix.into_fixed(), (1.0, 1.0, 1.0, 1.0));
 
     target.finish().unwrap();
   }
