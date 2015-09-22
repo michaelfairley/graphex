@@ -12,6 +12,8 @@ use cgmath::Rotation3;
 use cgmath::Matrix;
 use cgmath::FixedArray;
 
+use std::f32::consts::PI;
+
 pub mod shapes;
 pub mod fps;
 pub mod ring;
@@ -90,6 +92,7 @@ fn main() {
         Event::MouseMotion { xrel: dx, yrel: dy, .. } => {
           look_right += dx as f32 * CAMERA_ROTATE_SPEED;
           look_up += dy as f32 * CAMERA_ROTATE_SPEED;
+          look_up = look_up.max(-PI/2.0).min(PI/2.0);
         },
         _ => {}
       }
