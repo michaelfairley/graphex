@@ -1,3 +1,6 @@
+use cgmath;
+use glium;
+
 #[derive(Copy, Clone)]
 pub struct Vertex {
   position: [f32; 3],
@@ -55,3 +58,9 @@ pub const CUBE: &'static[Vertex] = &[
   Vertex { position: [-1.0,  1.0,  1.0], normal: [ 0.0,  1.0,  0.0] },
   Vertex { position: [-1.0,  1.0, -1.0], normal: [ 0.0,  1.0,  0.0] },
   ];
+
+pub struct SolidEntity<'b> {
+  pub buffer: &'b glium::VertexBuffer<Vertex>,
+  pub color: [f32; 3],
+  pub matrix: cgmath::Matrix4<f32>,
+}

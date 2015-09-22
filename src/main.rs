@@ -65,6 +65,10 @@ fn main() {
     .. Default::default()
   };
 
+  let cubes = vec![
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(5.0, 5.0, -10.0)) },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 0.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-5.0, 5.0, -10.0)) },
+    ];
 
   let mut running = true;
 
@@ -123,21 +127,24 @@ fn main() {
     let mut target = window.draw();
     target.clear_color_and_depth((0.0, 0.0, 0.0, 1.0), 1.0);
 
-    let basic_uniforms = uniform! {
-      color: [0.9f32, 0.9, 0.9],
-      model: cgmath::Matrix4::from_translation(&cgmath::vec3::<f32>(5.0, 5.0, -10.0)),
-      camera: cgmath::Matrix4::from(cgmath::Matrix3::from(camera_rotation)).mul_m(&cgmath::Matrix4::from_translation(&camera_position)),
-      proj: proj,
-      ambient_intensity: 0.5f32,
-      directional_intensity: 0.5f32,
-      light_direction: light_direction,
-    };
+    for cube in &cubes {
 
-    target.draw(&cube_vertex_buffer,
-                &indices,
-                &basic_program,
-                &basic_uniforms,
-                &basic_params).unwrap();
+      let basic_uniforms = uniform! {
+        color: cube.color,
+        model: cube.matrix,
+        camera: cgmath::Matrix4::from(cgmath::Matrix3::from(camera_rotation)).mul_m(&cgmath::Matrix4::from_translation(&camera_position)),
+        proj: proj,
+        ambient_intensity: 0.5f32,
+        directional_intensity: 0.5f32,
+        light_direction: light_direction,
+      };
+
+      target.draw(&cube_vertex_buffer,
+                  &indices,
+                  &basic_program,
+                  &basic_uniforms,
+                  &basic_params).unwrap();
+    }
 
     let fps_text = glium_text::TextDisplay::new(&text_system, &font, &format!("{} fps", fps.average()));
 
