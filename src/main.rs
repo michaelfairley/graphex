@@ -68,6 +68,7 @@ fn main() {
   let cubes = vec![
     shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(5.0, 5.0, -10.0)) },
     shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 0.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-5.0, 5.0, -10.0)) },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 5.0, -20.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(10.0, 5.0, 1.0)).into()) },
     ];
 
   let mut running = true;
