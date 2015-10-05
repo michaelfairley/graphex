@@ -55,6 +55,7 @@ fn main() {
   let basic_program = glium::Program::from_source(&window, include_str!("shaders/basic.vert"), include_str!("shaders/basic.frag"), None).unwrap();
 
   let cube_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::CUBE).unwrap();
+  let octa_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::OCTAHEDRON).unwrap();
   let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
 
   let basic_params = glium::DrawParameters {
@@ -65,10 +66,11 @@ fn main() {
     .. Default::default()
   };
 
-  let cubes = vec![
+  let shapes = vec![
     shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(3.0, 3.0, -5.0)) },
     shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 0.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-3.0, 3.0, -5.0)) },
     shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 3.0, -10.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(10.0, 5.0, 1.0)).into()) },
+    shapes::SolidEntity { buffer: &octa_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 3.0, -5.0)) },
     ];
 
   let mut running = true;
@@ -128,11 +130,11 @@ fn main() {
     let mut target = window.draw();
     target.clear_color_and_depth((0.0, 0.0, 0.0, 1.0), 1.0);
 
-    for cube in &cubes {
+    for shape in &shapes {
 
       let basic_uniforms = uniform! {
-        color: cube.color,
-        model: cube.matrix,
+        color: shape.color,
+        model: shape.matrix,
         camera: cgmath::Matrix4::from(cgmath::Matrix3::from(camera_rotation)).mul_m(&cgmath::Matrix4::from_translation(&camera_position)),
         proj: proj,
         ambient_intensity: 0.5f32,
@@ -140,7 +142,7 @@ fn main() {
         light_direction: light_direction,
       };
 
-      target.draw(&cube_vertex_buffer,
+      target.draw(shape.buffer,
                   &indices,
                   &basic_program,
                   &basic_uniforms,

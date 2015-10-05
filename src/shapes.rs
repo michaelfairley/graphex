@@ -59,6 +59,41 @@ pub const CUBE: &'static[Vertex] = &[
   Vertex { position: [-0.5,  0.5, -0.5], normal: [ 0.0,  1.0,  0.0] },
   ];
 
+pub const OCTAHEDRON: &'static[Vertex] = &[
+  Vertex { position: [ 0.0,  1.0,  0.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [ 1.0,  0.0,  0.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+
+  Vertex { position: [ 1.0,  0.0,  0.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0,  1.0,  0.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+
+  Vertex { position: [ 1.0,  0.0,  0.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0, -1.0,  0.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+
+  Vertex { position: [ 0.0, -1.0,  0.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [ 1.0,  0.0,  0.0], normal: [ 1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+
+  Vertex { position: [-1.0,  0.0,  0.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0,  1.0,  0.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+
+  Vertex { position: [ 0.0,  1.0,  0.0], normal: [ 0.0,  1.0,  0.0] },
+  Vertex { position: [-1.0,  0.0,  0.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+
+  Vertex { position: [ 0.0, -1.0,  0.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [-1.0,  0.0,  0.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0,  1.0], normal: [ 0.0,  0.0,  1.0] },
+
+  Vertex { position: [-1.0,  0.0,  0.0], normal: [-1.0,  0.0,  0.0] },
+  Vertex { position: [ 0.0, -1.0,  0.0], normal: [ 0.0, -1.0,  0.0] },
+  Vertex { position: [ 0.0,  0.0, -1.0], normal: [ 0.0,  0.0, -1.0] },
+
+];
+
 pub struct SolidEntity<'b> {
   pub buffer: &'b glium::VertexBuffer<Vertex>,
   pub color: [f32; 3],
