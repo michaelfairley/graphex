@@ -127,8 +127,14 @@ pub fn sphere(iterations: u32) -> Vec<Vertex> {
                 ).collect::<Vec<Vertex>>()
 }
 
+pub enum Shading {
+  Flat,
+  Smooth
+}
+
 pub struct SolidEntity<'b> {
   pub buffer: &'b glium::VertexBuffer<Vertex>,
   pub color: [f32; 3],
   pub matrix: cgmath::Matrix4<f32>,
+  pub shading: Shading,
 }

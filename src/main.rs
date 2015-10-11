@@ -55,9 +55,10 @@ fn main() {
   let light_direction = cgmath::vec3::<f32>(1.0, 2.0, 1.0).normalize();
 
   let basic_program = glium::Program::from_source(&window, include_str!("shaders/basic.vert"), include_str!("shaders/basic.frag"), None).unwrap();
+  let flat_program = glium::Program::from_source(&window, include_str!("shaders/flat.vert"), include_str!("shaders/flat.frag"), None).unwrap();
 
   let cube_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::CUBE).unwrap();
-  let octa_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::sphere(3)).unwrap();
+  let sphere_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::sphere(3)).unwrap();
   let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
 
   let basic_params = glium::DrawParameters {
@@ -69,10 +70,11 @@ fn main() {
   };
 
   let shapes = vec![
-    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(3.0, 3.0, -5.0)) },
-    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 0.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-3.0, 3.0, -5.0)) },
-    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 3.0, -10.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(10.0, 5.0, 1.0)).into()) },
-    shapes::SolidEntity { buffer: &octa_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 3.0, -5.0)) },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(3.0, 1.0, -5.0)), shading: shapes::Shading::Smooth },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 0.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-3.0, 1.0, -5.0)), shading: shapes::Shading::Smooth },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 1.0, -10.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(10.0, 5.0, 1.0)).into()), shading: shapes::Shading::Smooth },
+    shapes::SolidEntity { buffer: &sphere_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 1.0, -5.0)), shading: shapes::Shading::Smooth },
+    shapes::SolidEntity { buffer: &sphere_vertex_buffer, color: [1.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-6.0, 1.0, -5.0)), shading: shapes::Shading::Flat },
     ];
 
   let mut running = true;
@@ -144,9 +146,14 @@ fn main() {
         light_direction: light_direction,
       };
 
+      let program = match shape.shading {
+        shapes::Shading::Flat => &flat_program,
+        shapes::Shading::Smooth => &basic_program,
+      };
+
       target.draw(shape.buffer,
                   &indices,
-                  &basic_program,
+                  program,
                   &basic_uniforms,
                   &basic_params).unwrap();
     }
