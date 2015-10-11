@@ -4,6 +4,8 @@ extern crate cgmath;
 extern crate glium;
 extern crate glium_sdl2;
 extern crate glium_text;
+#[macro_use]
+extern crate lazy_static;
 
 use cgmath::EuclideanVector;
 use cgmath::Vector;
@@ -55,7 +57,7 @@ fn main() {
   let basic_program = glium::Program::from_source(&window, include_str!("shaders/basic.vert"), include_str!("shaders/basic.frag"), None).unwrap();
 
   let cube_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::CUBE).unwrap();
-  let octa_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::OCTAHEDRON).unwrap();
+  let octa_vertex_buffer = glium::VertexBuffer::new(&window, &shapes::sphere(3)).unwrap();
   let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
 
   let basic_params = glium::DrawParameters {

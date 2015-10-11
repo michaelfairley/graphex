@@ -8,6 +8,7 @@ sdl2 = "0.8"
 glium_sdl2 = "0.6"
 cgmath = "*"
 glium_text = "0.5"
+lazy_static = "*"
 
 [dependencies.glium]
 version = "0.8"
