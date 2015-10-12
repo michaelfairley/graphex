@@ -52,7 +52,7 @@ fn main() {
 
   let proj = cgmath::perspective(cgmath::deg(60 as f32), 1024.0/768.0, 1.0, 45.0);
 
-  let light_direction = cgmath::vec3::<f32>(1.0, 2.0, 1.0).normalize();
+  let light_direction = cgmath::vec3::<f32>(1.0, -2.0, 1.0).normalize();
 
   let basic_program = glium::Program::from_source(&window, include_str!("shaders/basic.vert"), include_str!("shaders/basic.frag"), None).unwrap();
   let flat_program = glium::Program::from_source(&window, include_str!("shaders/flat.vert"), include_str!("shaders/flat.frag"), None).unwrap();
