@@ -72,9 +72,13 @@ fn main() {
   let shapes = vec![
     shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(3.0, 1.0, -5.0)), shading: shapes::Shading::Smooth },
     shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [1.0, 0.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-3.0, 1.0, -5.0)), shading: shapes::Shading::Smooth },
-    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 1.0, -10.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(10.0, 5.0, 1.0)).into()), shading: shapes::Shading::Smooth },
     shapes::SolidEntity { buffer: &sphere_vertex_buffer, color: [1.0, 1.0, 1.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 1.0, -5.0)), shading: shapes::Shading::Smooth },
     shapes::SolidEntity { buffer: &sphere_vertex_buffer, color: [1.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-6.0, 1.0, -5.0)), shading: shapes::Shading::Flat },
+    // Walls
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 1.0, -10.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(21.0, 5.0, 1.0)).into()), shading: shapes::Shading::Smooth },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(0.0, 1.0, 10.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(21.0, 5.0, 1.0)).into()), shading: shapes::Shading::Smooth },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(10.0, 1.0, 0.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(1.0, 5.0, 21.0)).into()), shading: shapes::Shading::Smooth },
+    shapes::SolidEntity { buffer: &cube_vertex_buffer, color: [0.0, 1.0, 0.0], matrix: cgmath::Matrix4::from_translation(&cgmath::vec3(-10.0, 1.0, 0.0)).mul_m(&cgmath::Matrix3::from_diagonal(&cgmath::vec3(1.0, 5.0, 21.0)).into()), shading: shapes::Shading::Smooth },
     ];
 
   let mut running = true;
