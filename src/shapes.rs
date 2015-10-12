@@ -67,9 +67,9 @@ fn triforce_and_normalize(triangles: &Vec<Triangle>) -> Vec<Triangle> {
     let a = t[0];
     let b = t[1];
     let c = t[2];
-    let ab = a.add_v(&b).div_s(2.0).normalize();
-    let bc = b.add_v(&c).div_s(2.0).normalize();
-    let ca = c.add_v(&a).div_s(2.0).normalize();
+    let ab = a.add_v(&b).div_s(2.0).normalize_to(0.5);
+    let bc = b.add_v(&c).div_s(2.0).normalize_to(0.5);
+    let ca = c.add_v(&a).div_s(2.0).normalize_to(0.5);
 
     vec![
       [a, ab, ca],
@@ -82,14 +82,14 @@ fn triforce_and_normalize(triangles: &Vec<Triangle>) -> Vec<Triangle> {
 
 lazy_static! {
   static ref OCTAHEDRON_NORMALS: Vec<Vector3<f32>> = vec![
-    vec3( 1.0,  1.0,  1.0),
-    vec3( 1.0,  1.0, -1.0),
-    vec3( 1.0, -1.0,  1.0),
-    vec3( 1.0, -1.0, -1.0),
-    vec3(-1.0,  1.0,  1.0),
-    vec3(-1.0,  1.0, -1.0),
-    vec3(-1.0, -1.0,  1.0),
-    vec3(-1.0, -1.0, -1.0),
+    vec3( 0.5,  0.5,  0.5),
+    vec3( 0.5,  0.5, -0.5),
+    vec3( 0.5, -0.5,  0.5),
+    vec3( 0.5, -0.5, -0.5),
+    vec3(-0.5,  0.5,  0.5),
+    vec3(-0.5,  0.5, -0.5),
+    vec3(-0.5, -0.5,  0.5),
+    vec3(-0.5, -0.5, -0.5),
     ];
 
   static ref OCTAHEDRON_TRIANGLES: Vec<Triangle> =
