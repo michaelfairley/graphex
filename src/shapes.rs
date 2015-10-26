@@ -10,6 +10,15 @@ pub struct Vertex {
 
 implement_vertex!(Vertex, position, normal);
 
+pub const PLANE: &'static[Vertex] = &[
+  Vertex { position: [ 2.0,  2.0,  0.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [ 2.0, -2.0,  0.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [-2.0,  2.0,  0.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [-2.0,  2.0,  0.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [ 2.0, -2.0,  0.0], normal: [ 0.0,  0.0,  1.0] },
+  Vertex { position: [-2.0, -2.0,  0.0], normal: [ 0.0,  0.0,  1.0] },
+];
+
 pub const CUBE: &'static[Vertex] = &[
   // Front
   Vertex { position: [ 0.5,  0.5,  0.5], normal: [ 0.0,  0.0,  1.0] },
