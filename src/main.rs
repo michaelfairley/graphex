@@ -90,7 +90,8 @@ fn main() {
   };
 
   let mirrors = vec![
-    mirror::Mirror { buffer: &plane_vertex_buffer, color: [0.9, 0.9, 0.9], position: cgmath::vec3(3.0, 1.0, -9.4), rotation: cgmath::Matrix4::identity() },
+    // mirror::Mirror { buffer: &plane_vertex_buffer, color: [0.9, 0.9, 0.9], position: cgmath::vec3(3.0, 1.0, -9.4), rotation: cgmath::Matrix3::identity() },
+    mirror::Mirror { buffer: &plane_vertex_buffer, color: [0.9, 0.9, 0.9], position: cgmath::vec3(-9.4, 1.0, 3.0), rotation: cgmath::Matrix3::from(cgmath::Basis3::from_angle_y(cgmath::rad(PI/2.0))) }
     ];
 
   let shapes = vec![
@@ -192,7 +193,7 @@ fn main() {
 
       let basic_uniforms = uniform! {
         color: mirror.color,
-        model: mirror.rotation.mul_m(&cgmath::Matrix4::from_translation(&mirror.position)),
+        model: cgmath::Matrix4::from_translation(&mirror.position).mul_m(&mirror.rotation.into()),
         camera: camera,
         proj: proj,
         ambient_intensity: 0.5f32,
@@ -207,7 +208,7 @@ fn main() {
                   &mirror_params).unwrap();
 
 
-      let mirror_normal = cgmath::vec3(0.0, 0.0, 1.0);
+      let mirror_normal = mirror.rotation.mul_v(&cgmath::vec3(0.0, 0.0, 1.0));
 
       let camera_to_mirror = mirror.position.sub_v(&camera_position);
 
@@ -265,7 +266,7 @@ fn mirror_projection(proj: &cgmath::Matrix4<f32>,
 
   let c_mirror_position = camera.mul_v(&mirror.position.extend(1.0)).truncate();
 
-  let mirror_normal = camera.mul_v(&cgmath::vec4(0.0, 0.0, 1.0, 0.0)).truncate();
+  let mirror_normal = camera.mul_v(&mirror.rotation.mul_v(&cgmath::vec3(0.0, 0.0, 1.0)).extend(0.0)).truncate();
 
   let mirror_plane = mirror_normal.extend(mirror_normal.mul_s(-1.0).dot(&c_mirror_position));
 
