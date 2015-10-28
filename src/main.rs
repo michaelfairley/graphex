@@ -90,8 +90,8 @@ fn main() {
   };
 
   let mirrors = vec![
-    // mirror::Mirror { buffer: &plane_vertex_buffer, color: [0.9, 0.9, 0.9], position: cgmath::vec3(3.0, 1.0, -9.4), rotation: cgmath::Matrix3::identity() },
-    mirror::Mirror { buffer: &plane_vertex_buffer, color: [0.9, 0.9, 0.9], position: cgmath::vec3(-9.4, 1.0, 3.0), rotation: cgmath::Matrix3::from(cgmath::Basis3::from_angle_y(cgmath::rad(PI/2.0))) }
+    mirror::Mirror { buffer: &plane_vertex_buffer, color: [0.9, 0.9, 0.9], position: cgmath::vec3(3.0, 1.0, -9.4), rotation: cgmath::Matrix3::identity() },
+    mirror::Mirror { buffer: &plane_vertex_buffer, color: [0.9, 0.9, 0.9], position: cgmath::vec3(-9.4, 1.0, 3.0), rotation: cgmath::Matrix3::from(cgmath::Basis3::from_angle_y(cgmath::rad(PI/2.0))) },
     ];
 
   let shapes = vec![
@@ -163,7 +163,7 @@ fn main() {
     let camera = cgmath::Matrix4::from(cgmath::Matrix3::from(camera_rotation)).mul_m(&cgmath::Matrix4::from_translation(&camera_position.mul_s(-1.0)));
 
     let mut target = window.draw();
-    target.clear_all((0.0, 0.0, 0.0, 1.0), 1.0, 0);
+    target.clear_color_and_depth((0.0, 0.0, 0.0, 1.0), 1.0);
 
     for shape in &shapes {
 
@@ -201,6 +201,8 @@ fn main() {
         light_direction: light_direction,
       };
 
+      target.clear_stencil(0);
+
       target.draw(mirror.buffer,
                   &indices,
                   &basic_program,
@@ -221,8 +223,6 @@ fn main() {
       let reflected_camera = cgmath::Matrix4::from(cgmath::Matrix3::from(reflected_camera_rotation)).mul_m(&cgmath::Matrix4::from_translation(&reflected_camera_position.mul_s(-1.0)));
 
       let mirror_proj = mirror_projection(&proj, &reflected_camera, &mirror);
-
-      target.clear_depth(1.0);
 
       for shape in &shapes {
 
