@@ -81,12 +81,13 @@ fn main() {
   };
 
   let reflected_params = glium::DrawParameters {
-    stencil_test_clockwise: glium::StencilTest::IfEqual { mask: 0xFF },
-    stencil_reference_value_clockwise: 1,
+    stencil_test_counter_clockwise: glium::StencilTest::IfEqual { mask: 0xFF },
+    stencil_reference_value_counter_clockwise: 1,
     depth_test: glium::DepthTest::IfLessOrEqual,
     depth_range: (0.0, 1.0),
     depth_write: true,
-   .. basic_params.clone()
+    backface_culling: glium::BackfaceCullingMode::CullClockWise,
+    .. basic_params.clone()
   };
 
   let mirrors = vec![
@@ -284,5 +285,8 @@ fn mirror_projection(proj: &cgmath::Matrix4<f32>,
   result[2][2] = c.z + 1.0;
   result[3][2] = c.w;
 
-  return result;
+  return cgmath::Matrix4::new(-1.0, 0.0, 0.0, 0.0,
+                               0.0, 1.0, 0.0, 0.0,
+                               0.0, 0.0, 1.0, 0.0,
+                               0.0, 0.0, 0.0, 1.0).mul_m(&result);
 }
